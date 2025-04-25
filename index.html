@@ -4,204 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FundMyServer - Keep Your Indie Project Alive</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        body {
-            font-family: sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+        /* Optional: You can add minimal custom overrides here if needed, but the goal is to rely on Bootstrap */
+        .hero-section {
+            background-color: #e9ecef; /* A light grey background similar to Bootstrap's light bg */
         }
-        .container {
-            max-width: 960px;
-            margin: auto;
-            overflow: hidden;
-            padding: 0 20px;
-        }
-        header {
-            background: #333;
-            color: #fff;
-            padding-top: 30px;
-            min-height: 70px;
-            border-bottom: #0779e4 3px solid;
-        }
-        header h1 {
-            text-align: center;
-            margin: 0;
-            padding-bottom: 10px;
-        }
-        .hero {
-            background: #e2e2e2;
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom: #ccc 1px solid;
-        }
-        .hero h2 {
-            margin-top: 0;
-            font-size: 2.5em;
-            color: #333;
-        }
-        .hero p {
-            font-size: 1.2em;
-            color: #555;
-        }
-        .cta-section {
-             padding: 30px 20px;
-             background: #fff;
-             text-align: center;
-             margin-top: 20px;
-             border-radius: 5px;
-        }
-         .cta-section h3 {
-            margin-top: 0;
-         }
-        .form-control {
-            display: block;
-            width: 80%;
-            padding: 10px;
-            margin: 10px auto;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .btn {
-            display: inline-block;
-            background: #0779e4;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-        .btn:hover {
-            background: #0567d1;
-        }
-        .section {
-            padding: 40px 0;
-        }
-        .section h3 {
-            text-align: center;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-        }
-        .section .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .section .card {
-            background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-         .section .card h4 {
-            color: #0779e4;
-            margin-top:0;
-         }
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-        }
-
-        /* Basic Responsive */
-         @media(max-width: 768px) {
-            .hero h2 { font-size: 2em; }
-            .form-control { width: 95%;}
-            .section .grid { grid-template-columns: 1fr; }
-         }
+        /* Increase default card padding slightly if desired */
+        /* .card { padding: 1.5rem; } */
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>FundMyServer</h1>
+
+    <header class="bg-dark text-white py-3 border-bottom border-primary border-3">
+        <div class="container text-center">
+            <h1 class="display-6">FundMyServer</h1>
         </div>
     </header>
 
-    <section class="hero">
+    <section class="py-5 text-center hero-section">
         <div class="container">
-            <h2>Don't Let Server Costs Kill Your Dream Project</h2>
-            <p>FundMyServer connects indie developers and hobbyists with micro-sponsors to cover essential operational costs like hosting, APIs, and databases. Keep building, not worrying about the bills.</p>
-            <a href="#waitlist-form" class="btn">Join the Waitlist</a>
+            <h2 class="display-4 fw-bold">Don't Let Server Costs Kill Your Dream Project</h2>
+            <p class="lead text-muted mt-3 mb-4">
+                FundMyServer connects indie developers and hobbyists with micro-sponsors to cover essential operational costs like hosting, APIs, and databases. Keep building, not worrying about the bills.
+            </p>
+            <a href="#waitlist-form" class="btn btn-primary btn-lg">Join the Waitlist</a>
             </div>
     </section>
 
-    <section class="section" id="how-it-works">
+    <section id="how-it-works" class="py-5">
         <div class="container">
-            <h3>How It Works</h3>
-            <div class="grid">
-                <div class="card">
-                    <h4>For Project Creators (Seekers)</h4>
-                    <p>1. Submit your project with a clear breakdown of your essential monthly server/API costs.</p>
-                    <p>2. We vet your project and costs for transparency.</p>
-                    <p>3. Get matched with sponsors willing to cover your costs for a defined period (e.g., 3-6 months).</p>
+            <h3 class="text-center display-6 mb-5 fw-bold">How It Works</h3>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title text-primary"><i class="bi bi-person-workspace me-2"></i>For Project Creators (Seekers)</h4>
+                            <p class="card-text mt-2">1. Submit your project with a clear breakdown of your essential monthly server/API costs.</p>
+                            <p class="card-text">2. We vet your project and costs for transparency.</p>
+                            <p class="card-text">3. Get matched with sponsors willing to cover your costs for a defined period (e.g., 3-6 months).</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card">
-                    <h4>For Supporters (Sponsors)</h4>
-                    <p>1. Browse vetted indie projects needing operational funding.</p>
-                    <p>2. Choose a project and sponsor its specific, itemized costs for a fixed term.</p>
-                    <p>3. Make a tangible impact and help a promising project stay online.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-     <section class="section" id="benefits">
-        <div class="container">
-            <h3>Why Join?</h3>
-            <div class="grid">
-                <div class="card">
-                    <h4>Benefits for Creators</h4>
-                    <ul>
-                        <li>Focus on building, not server bills.</li>
-                        <li>Keep your project alive and growing.</li>
-                        <li>Gain visibility and connect with supporters.</li>
-                        <li>Get specific, essential costs covered.</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <h4>Benefits for Sponsors</h4>
-                    <ul>
-                        <li>Make a direct, tangible impact.</li>
-                        <li>Discover unique and innovative projects early.</li>
-                        <li>Support the indie developer community.</li>
-                        <li>Clear transparency on where funds go.</li>
-                     </ul>
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title text-success"><i class="bi bi-people-fill me-2"></i>For Supporters (Sponsors)</h4>
+                            <p class="card-text mt-2">1. Browse vetted indie projects needing operational funding.</p>
+                            <p class="card-text">2. Choose a project and sponsor its specific, itemized costs for a fixed term.</p>
+                            <p class="card-text">3. Make a tangible impact and help a promising project stay online.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="cta-section" id="waitlist-form">
+     <section id="benefits" class="py-5 bg-light">
         <div class="container">
-            <h3>Ready to Keep Indie Projects Alive?</h3>
-            <p>Join the waitlist to get early access and updates.</p>
+            <h3 class="text-center display-6 mb-5 fw-bold">Why Join?</h3>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                             <h4 class="card-title text-primary"><i class="bi bi-rocket-takeoff-fill me-2"></i>Benefits for Creators</h4>
+                             <ul class="list-unstyled mt-3">
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Focus on building, not server bills.</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Keep your project alive and growing.</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Gain visibility and connect with supporters.</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Get specific, essential costs covered.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-6">
+                     <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h4 class="card-title text-success"><i class="bi bi-heart-fill me-2"></i>Benefits for Sponsors</h4>
+                            <ul class="list-unstyled mt-3">
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Make a direct, tangible impact.</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Discover unique and innovative projects early.</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Support the indie developer community.</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Clear transparency on where funds go.</li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <form name="waitlist" method="POST" data-netlify="true">
-                <input type="email" name="email" placeholder="Enter your email address" required class="form-control">
-                <select name="role" required class="form-control">
-                    <option value="" disabled selected>I am interested as a...</option>
-                    <option value="seeker">Project Creator (Seeker)</option>
-                    <option value="sponsor">Potential Sponsor</option>
-                    <option value="curious">Just Curious</option>
-                </select>
-                <button type="submit" class="btn">Join Waitlist</button>
+    <section class="py-5 text-center" id="waitlist-form">
+        <div class="container">
+            <h3 class="fw-bold">Ready to Keep Indie Projects Alive?</h3>
+            <p class="lead text-muted mb-4">Join the waitlist to get early access and updates.</p>
+
+            <form name="waitlist" method="POST" data-netlify="true" class="col-md-8 col-lg-6 mx-auto">
+                <div class="mb-3">
+                    <label for="emailInput" class="form-label visually-hidden">Email address</label>
+                    <input type="email" name="email" class="form-control form-control-lg" id="emailInput" placeholder="Enter your email address" required>
+                </div>
+                 <div class="mb-3">
+                    <label for="roleSelect" class="form-label visually-hidden">I am interested as a...</label>
+                    <select name="role" class="form-select form-select-lg" id="roleSelect" required>
+                        <option value="" disabled selected>I am interested as a...</option>
+                        <option value="seeker">Project Creator (Seeker)</option>
+                        <option value="sponsor">Potential Sponsor</option>
+                        <option value="curious">Just Curious</option>
+                    </select>
+                 </div>
+                 <p class="d-none">
+                    <label>Don’t fill this out if you’re human: <input name="bot-field"></label>
+                 </p>
+                <button type="submit" class="btn btn-primary btn-lg mt-2">Join Waitlist</button>
             </form>
 
-                      </div>
+        </div>
     </section>
 
-    <footer>
-        <p>&copy; <span id="year"></span> FundMyServer. All Rights Reserved.</p>
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <p class="mb-0">&copy; <span id="year"></span> FundMyServer. All Rights Reserved.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         // Simple script to update the year dynamically
         document.getElementById('year').textContent = new Date().getFullYear();
