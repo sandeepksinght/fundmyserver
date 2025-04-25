@@ -1,809 +1,859 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FundMyServer - The Ops Cost Bridge</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'space': ['"Space Grotesk"', 'sans-serif'],
-                        'sans': ['Inter', 'sans-serif']
-                    },
-                    colors: {
-                        primary: {
-                            50: '#eef9ff',
-                            100: '#dcf3ff',
-                            200: '#b4eaff',
-                            300: '#75dcff',
-                            400: '#2cc7ff',
-                            500: '#06adf4',
-                            600: '#008ad0',
-                            700: '#0070a9',
-                            800: '#035e8b',
-                            900: '#084e73',
-                            950: '#063249',
-                        },
-                        secondary: {
-                            50: '#f0f8ff',
-                            100: '#deeeff',
-                            200: '#c3dfff',
-                            300: '#99c9ff',
-                            400: '#66a8ff',
-                            500: '#3d85ff',
-                            600: '#1955ff',
-                            700: '#1040ff',
-                            800: '#1134df',
-                            900: '#1633b4',
-                            950: '#11206e',
-                        },
-                        dark: '#09162F'
-                    }
-                }
-            }
-        }
-    </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .clip-path-terminal {
-                clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
-            }
-            .clip-path-terminal-inverse {
-                clip-path: polygon(0 15%, 15% 0, 100% 0, 100% 100%, 0 100%);
-            }
-            .text-shadow {
-                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            }
-            .terminal-header {
-                @apply bg-gradient-to-r from-zinc-800 to-zinc-900 h-6 rounded-t-lg flex items-center px-3;
-            }
-            .terminal-circle {
-                @apply w-2.5 h-2.5 rounded-full inline-block mx-1;
-            }
-            .animate-pulse-slow {
-                animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            }
-            .animate-pulse-medium {
-                animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            }
-            .glow {
-                box-shadow: 0 0 15px rgba(6, 173, 244, 0.5);
-            }
-            .glow-text {
-                text-shadow: 0 0 10px rgba(6, 173, 244, 0.5);
-            }
-            .code-box-gradient {
-                background: linear-gradient(135deg, #09162F 0%, #162B52 100%);
-            }
-            .noise-bg {
-                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-                background-repeat: repeat;
-                background-size: 200px 200px;
-                opacity: 0.03;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 1;
-                pointer-events: none;
-            }
-            .custom-grid {
-                background-size: 50px 50px;
-                background-image:
-                    linear-gradient(to right, rgba(9, 22, 47, 0.05) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(9, 22, 47, 0.05) 1px, transparent 1px);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FundMyServer - The Ops Cost Bridge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+fontFamily: {
+'space': ['"Space Grotesk"', 'sans-serif'],
+'sans': ['Inter', 'sans-serif']
+},
+colors: {
+primary: {
+50: '#eef9ff',
+100: '#dcf3ff',
+200: '#b4eaff',
+300: '#75dcff',
+400: '#2cc7ff',
+500: '#06adf4',
+600: '#008ad0',
+700: '#0070a9',
+800: '#035e8b',
+900: '#084e73',
+950: '#063249',
+},
+secondary: {
+50: '#f0f8ff',
+100: '#deeeff',
+200: '#c3dfff',
+300: '#99c9ff',
+400: '#66a8ff',
+500: '#3d85ff',
+600: '#1955ff',
+700: '#1040ff',
+800: '#1134df',
+900: '#1633b4',
+950: '#11206e',
+},
+dark: '#09162F'
+}
+}
+}
+}
+</script>
+<style type="text/tailwindcss">
+@layer utilities {
+.clip-path-terminal {
+clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+}
+.clip-path-terminal-inverse {
+clip-path: polygon(0 15%, 15% 0, 100% 0, 100% 100%, 0 100%);
+}
+.text-shadow {
+text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.terminal-header {
+@apply bg-gradient-to-r from-zinc-800 to-zinc-900 h-6 rounded-t-lg flex items-center px-3;
+}
+.terminal-circle {
+@apply w-2.5 h-2.5 rounded-full inline-block mx-1;
+}
+.animate-pulse-slow {
+animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+.animate-pulse-medium {
+animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+.glow {
+box-shadow: 0 0 15px rgba(6, 173, 244, 0.5);
+}
+.glow-text {
+text-shadow: 0 0 10px rgba(6, 173, 244, 0.5);
+}
+.code-box-gradient {
+background: linear-gradient(135deg, #09162F 0%, #162B52 100%);
+}
+.noise-bg {
+background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+background-repeat: repeat;
+background-size: 200px 200px;
+opacity: 0.03;
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 1;
+pointer-events: none;
+}
+.custom-grid {
+background-size: 50px 50px;
+background-image:
+linear-gradient(to right, rgba(9, 22, 47, 0.05) 1px, transparent 1px),
+linear-gradient(to bottom, rgba(9, 22, 47, 0.05) 1px, transparent 1px);
+}
+}
+</style>
 </head>
 <body class="bg-slate-50 text-gray-900 font-sans relative overflow-x-hidden">
-    <!-- Grid background overlay -->
-    <div class="fixed inset-0 custom-grid opacity-70 pointer-events-none"></div>
-    <!-- Noise texture overlay -->
-    <div class="noise-bg"></div>
+<!-- Grid background overlay -->
+<div class="fixed inset-0 custom-grid opacity-70 pointer-events-none"></div>
+<!-- Noise texture overlay -->
+<div class="noise-bg"></div>
 
-    <!-- Navbar -->
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-slate-200">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between h-16">
-                <a href="#" class="flex items-center">
-                    <div class="relative flex items-center">
-                        <div class="w-8 h-8 rounded-md bg-gradient-to-br from-primary-500 to-secondary-600 flex items-center justify-center shadow-md">
-                            <span class="text-white font-bold font-space text-lg">F</span>
-                        </div>
-                        <span class="ml-2 text-xl font-bold text-dark font-space tracking-tight">FundMyServer</span>
-                        <div class="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    </div>
-                </a>
-                <nav class="hidden md:flex space-x-8">
-                    <a href="#how-it-works" class="text-gray-700 hover:text-primary-600 font-medium transition duration-150">How It Works</a>
-                    <a href="#difference" class="text-gray-700 hover:text-primary-600 font-medium transition duration-150">Our Difference</a>
-                    <a href="#faq" class="text-gray-700 hover:text-primary-600 font-medium transition duration-150">FAQ</a>
-                </nav>
-                <button class="md:hidden focus:outline-none">
-                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
+<!-- Navbar -->
+<header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-slate-200">
+<div class="container mx-auto px-4">
+<div class="flex items-center justify-between h-16">
+<a href="#" class="flex items-center">
+<div class="relative flex items-center">
+<div class="w-8 h-8 rounded-md bg-gradient-to-br from-primary-500 to-secondary-600 flex items-center justify-center shadow-md">
+<span class="text-white font-bold font-space text-lg">F</span>
+</div>
+<span class="ml-2 text-xl font-bold text-dark font-space tracking-tight">FundMyServer</span>
+<div class="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+</div>
+</a>
+<nav class="hidden md:flex space-x-8">
+<a href="#waitlist-form" class="text-gray-700 hover:text-primary-600 font-medium transition duration-150">Join Waitlist</a>
+<a href="#how-it-works" class="text-gray-700 hover:text-primary-600 font-medium transition duration-150">How It Works</a>
+<a href="#difference" class="text-gray-700 hover:text-primary-600 font-medium transition duration-150">Our Difference</a>
+<a href="#faq" class="text-gray-700 hover:text-primary-600 font-medium transition duration-150">FAQ</a>
+</nav>
+<button class="md:hidden focus:outline-none">
+<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+</svg>
+</button>
+</div>
+</div>
+</header>
 
-    <!-- Hero Section -->
-    <section class="relative py-20 md:py-32 overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-white via-slate-50 to-primary-50 -z-10"></div>
-        
-        <!-- Abstract shapes -->
-        <div class="absolute top-1/4 -right-24 w-96 h-96 bg-primary-100/30 rounded-full blur-3xl -z-10 animate-pulse-slow"></div>
-        <div class="absolute bottom-1/4 -left-24 w-64 h-64 bg-secondary-100/20 rounded-full blur-3xl -z-10 animate-pulse-medium"></div>
-        
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col lg:flex-row items-center gap-12">
-                <div class="lg:w-1/2 max-w-2xl">
-                    <div class="inline-block px-3 py-1 rounded-full bg-primary-100 text-primary-700 font-medium text-sm mb-6">
-                        Never shut down a promising project again
-                    </div>
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-dark leading-tight font-space mb-6">
-                        Keep your code running,<br/>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 relative">
-                            not your credit card
-                            <svg class="absolute -bottom-4 left-0 w-full h-3 text-primary-400/70" viewBox="0 0 400 6" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0,3 C100,0 200,6 400,3" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
-                            </svg>
-                        </span>
-                    </h1>
-                    <p class="text-xl text-gray-700 mb-8 leading-relaxed">
-                        Get your essential server, API, and database costs covered through transparent micro-sponsorships that target exactly what you need.
-                    </p>
-                    
-                    <!-- Market Size Insight Box -->
-                    <div class="mb-10 bg-white rounded-xl p-5 shadow-lg border border-slate-100 relative">
-                        <div class="absolute -top-3 -right-3 bg-secondary-600 text-white text-xs font-bold px-2 py-1 rounded-md">
-                            MARKET INSIGHT
-                        </div>
-                        <p class="text-sm text-gray-500 mb-1">Estimated monthly infrastructure costs killing indie projects:</p>
-                        <div class="flex items-baseline">
-                            <span class="text-3xl font-bold text-dark font-space mr-1">$<span id="count">10-100</span></span>
-                            <span class="text-primary-600 text-sm font-medium">per project</span>
-                        </div>
-                        <div class="mt-2 flex flex-wrap gap-2">
-                            <span class="inline-block bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">Servers</span>
-                            <span class="inline-block bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">APIs</span>
-                            <span class="inline-block bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">Databases</span>
-                            <span class="inline-block bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">Storage</span>
-                        </div>
-                    </div>
+<!-- Hero Section -->
+<section class="relative py-20 md:py-32 overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-white via-slate-50 to-primary-50 -z-10"></div>
 
-                    <!-- Waitlist form - Redesigned -->
-                    <div id="waitlist-form" class="bg-white rounded-xl p-6 shadow-xl border border-slate-200 glow relative">
-                        <div class="terminal-header absolute -top-3 left-4 right-4">
-                            <span class="terminal-circle bg-red-400"></span>
-                            <span class="terminal-circle bg-amber-400"></span>
-                            <span class="terminal-circle bg-green-400"></span>
-                            <span class="ml-2 text-gray-400 text-xs">early-access.sh</span>
-                        </div>
-                        
-                        <form name="waitlist" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" class="pt-4">
-                            <p class="hidden">
-                                <label>Don't fill this out if you're human: <input name="bot-field"/></label>
-                            </p>
-                            <div class="mb-5">
-                                <div class="flex items-center text-primary-600 mb-3">
-                                    <span class="font-mono">$</span>
-                                    <span class="ml-2 font-medium">join_waitlist</span>
-                                </div>
-                                <div class="flex flex-col md:flex-row gap-3">
-                                    <div class="flex-1">
-                                        <input type="email" name="email" placeholder="you@example.com" required
-                                            class="w-full bg-slate-50 border-0 focus:ring-2 focus:ring-primary-500 rounded-lg h-12 px-4 text-gray-800 focus:outline-none transition duration-150"/>
-                                    </div>
-                                    <div class="md:w-auto">
-                                        <select name="role" required
-                                            class="w-full bg-slate-50 border-0 focus:ring-2 focus:ring-primary-500 rounded-lg h-12 px-4 text-gray-800 focus:outline-none transition duration-150 md:w-48 appearance-none"
-                                            style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg width=\"20\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 7l3 3 3-3\" stroke=\"%23666\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\"/></svg>'); background-repeat: no-repeat; background-position: right 12px center;">
-                                            <option value="" disabled selected>Select role...</option>
-                                            <option value="seeker">Project Creator</option>
-                                            <option value="sponsor">Potential Sponsor</option>
-                                            <option value="curious">Just Curious</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit"
-                                class="w-full bg-gradient-to-r from-primary-600 to-secondary-600 text-white font-medium py-3 px-6 rounded-lg shadow-lg hover:shadow-xl hover:translate-y-0.5 transform transition duration-150 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                                Request Early Access
-                            </button>
-                            <p class="text-gray-500 text-xs mt-3 text-center">Be part of our founding community</p>
-                        </form>
-                    </div>
-                </div>
-                
-                <!-- Right side illustration -->
-                <div class="lg:w-1/2 mt-10 lg:mt-0">
-                    <div class="relative max-w-lg mx-auto">
-                        <!-- Main code window -->
-                        <div class="code-box-gradient rounded-xl shadow-2xl text-white overflow-hidden border border-slate-700">
-                            <div class="terminal-header">
-                                <span class="terminal-circle bg-red-400"></span>
-                                <span class="terminal-circle bg-amber-400"></span>
-                                <span class="terminal-circle bg-green-400"></span>
-                                <span class="ml-2 text-gray-400 text-xs font-mono">project_status.js</span>
-                            </div>
-                            
-                            <div class="p-6 font-mono text-sm">
-                                <div class="flex items-start mb-4">
-                                    <span class="text-gray-500 mr-2">1</span>
-                                    <span><span class="text-purple-400">const</span> <span class="text-green-400">project</span> = {</span>
-                                </div>
-                                <div class="flex items-start mb-1">
-                                    <span class="text-gray-500 mr-2">2</span>
-                                    <span class="pl-8"><span class="text-primary-300">name</span>: <span class="text-amber-300">"CoolNewApp"</span>,</span>
-                                </div>
-                                <div class="flex items-start mb-1">
-                                    <span class="text-gray-500 mr-2">3</span>
-                                    <span class="pl-8"><span class="text-primary-300">creator</span>: <span class="text-amber-300">"you@example.com"</span>,</span>
-                                </div>
-                                <div class="flex items-start mb-1">
-                                    <span class="text-gray-500 mr-2">4</span>
-                                    <span class="pl-8"><span class="text-primary-300">operationalCosts</span>: {</span>
-                                </div>
-                                <div class="flex items-start mb-1">
-                                    <span class="text-gray-500 mr-2">5</span>
-                                    <span class="pl-16"><span class="text-primary-300">server</span>: <span class="text-blue-300">15.00</span>, <span class="text-gray-500">// DigitalOcean Droplet</span></span>
-                                </div>
-                                <div class="flex items-start mb-1">
-                                    <span class="text-gray-500 mr-2">6</span>
-                                    <span class="pl-16"><span class="text-primary-300">database</span>: <span class="text-blue-300">7.00</span>, <span class="text-gray-500">// MongoDB Atlas</span></span>
-                                </div>
-                                <div class="flex items-start mb-1">
-                                    <span class="text-gray-500 mr-2">7</span>
-                                    <span class="pl-16"><span class="text-primary-300">apis</span>: <span class="text-blue-300">12.50</span>, <span class="text-gray-500">// OpenAI + SendGrid</span></span>
-                                </div>
-                                <div class="flex items-start mb-1">
-                                    <span class="text-gray-500 mr-2">8</span>
-                                    <span class="pl-8">},</span>
-                                </div>
-                                <div class="flex items-start mb-1">
-                                    <span class="text-gray-500 mr-2">9</span>
-                                    <span class="pl-8"><span class="text-primary-300">monthlyTotal</span>: <span class="text-blue-300">34.50</span>,</span>
-                                </div>
-                                <div class="flex items-start mb-1">
-                                    <span class="text-gray-500 mr-2">10</span>
-                                    <span class="pl-8"><span class="text-primary-300">status</span>: <span class="text-red-400">"At Risk"</span>, <span class="text-gray-500">// Running out of credits</span></span>
-                                </div>
-                                <div class="flex items-start mb-4">
-                                    <span class="text-gray-500 mr-2">11</span>
-                                    <span>};</span>
-                                </div>
-                                
-                                <!-- Status change animation -->
-                                <div class="flex items-start mb-1">
-                                    <span class="text-gray-500 mr-2">12</span>
-                                    <span><span class="text-purple-400">async function</span> <span class="text-yellow-400">updateStatus</span>() {</span>
-                                </div>
-                                <div class="flex items-start mb-1">
-                                    <span class="text-gray-500 mr-2">13</span>
-                                    <span class="pl-8"><span class="text-purple-400">const</span> <span class="text-green-400">sponsor</span> = <span class="text-purple-400">await</span> <span class="text-yellow-400">fundMyServer</span>.<span class="text-yellow-400">findSponsor</span>(project);</span>
-                                </div>
-                                <div class="flex items-start mb-1">
-                                    <span class="text-gray-500 mr-2">14</span>
-                                    <span class="pl-8">project.status = <span class="text-green-400">"Funded for 6 months"</span>;</span>
-                                </div>
-                                <div class="flex items-start">
-                                    <span class="text-gray-500 mr-2">15</span>
-                                    <span>}</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Terminal overlay window -->
-                        <div class="absolute -bottom-6 -right-6 w-3/4 code-box-gradient rounded-lg shadow-xl p-4 font-mono text-sm text-white border border-slate-700">
-                            <div class="flex items-center mb-2">
-                                <span class="text-gray-500 mr-2">$</span>
-                                <span class="text-white">fundmyserver verify --project CoolNewApp</span>
-                            </div>
-                            <div class="text-green-400">✓ Costs verified! Total $34.50/month matches market rates</div>
-                            <div class="mt-2 text-primary-300">Matching with potential sponsors...</div>
-                            <div class="mt-1 flex items-center">
-                                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse mr-2"></div>
-                                <span class="text-white">2 sponsors interested in your project!</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Status badge -->
-                        <div class="absolute -top-4 -left-4 bg-white px-4 py-2 rounded-lg shadow-lg border border-slate-200 flex items-center">
-                            <div class="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
-                            <span class="font-medium text-dark">Verified Project</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Abstract shapes -->
+<div class="absolute top-1/4 -right-24 w-96 h-96 bg-primary-100/30 rounded-full blur-3xl -z-10 animate-pulse-slow"></div>
+<div class="absolute bottom-1/4 -left-24 w-64 h-64 bg-secondary-100/20 rounded-full blur-3xl -z-10 animate-pulse-medium"></div>
 
-    <!-- "How It Works" with timeline design -->
-    <section id="how-it-works" class="py-24 relative">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold font-space text-dark mb-4">From Struggling to Sponsored in 3 Steps</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    We bridge the gap between bootstrapped projects and micro-sponsors through a transparent, verified process.
-                </p>
-            </div>
-            
-            <!-- Timeline steps -->
-            <div class="max-w-4xl mx-auto relative">
-                <!-- Vertical line -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-primary-400 to-secondary-600 rounded-full hidden md:block"></div>
-                
-                <!-- Step 1 -->
-                <div class="relative z-10 md:flex items-center mb-16">
-                    <div class="md:w-1/2 mb-8 md:mb-0 md:pr-12 md:text-right">
-                        <h3 class="text-2xl font-bold font-space text-dark mb-3">Submit Operational Costs</h3>
-                        <p class="text-gray-600">
-                            Provide a detailed breakdown of your essential infrastructure costs (servers, APIs, databases) using our standardized template.
-                        </p>
-                    </div>
-                    <div class="md:w-12 md:h-12 bg-white rounded-full border-4 border-primary-500 shadow-lg absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center">
-                        <span class="text-primary-600 font-bold">1</span>
-                    </div>
-                    <div class="md:w-1/2 md:pl-12 md:block hidden">
-                        <div class="bg-white rounded-xl shadow-lg p-4 border border-slate-200">
-                            <div class="terminal-header">
-                                <span class="terminal-circle bg-red-400"></span>
-                                <span class="terminal-circle bg-amber-400"></span>
-                                <span class="terminal-circle bg-green-400"></span>
-                            </div>
-                            <div class="pt-3 text-sm">
-                                <div class="font-mono mb-1 text-slate-500"># Example Cost Breakdown</div>
-                                <div class="font-mono mb-1"><span class="text-red-500">Server:</span> DigitalOcean ($15/mo)</div>
-                                <div class="font-mono mb-1"><span class="text-blue-500">Database:</span> MongoDB Atlas ($7/mo)</div>
-                                <div class="font-mono"><span class="text-green-500">APIs:</span> SendGrid + OpenAI ($12.50/mo)</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Step 2 -->
-                <div class="relative z-10 md:flex items-center mb-16">
-                    <div class="md:w-1/2 mb-8 md:mb-0 md:pr-12 md:text-right md:block hidden">
-                        <div class="bg-white rounded-xl shadow-lg p-4 border border-slate-200">
-                            <div class="flex justify-between mb-4">
-                                <div class="font-medium text-dark">Cost Verification</div>
-                                <div class="text-green-500 font-medium">VERIFIED ✓</div>
-                            </div>
-                            <div class="space-y-2">
-                                <div class="w-full bg-slate-100 h-2 rounded-full">
-                                    <div class="bg-green-500 h-2 rounded-full w-full"></div>
-                                </div>
-                                <div class="flex justify-between text-xs text-gray-500">
-                                    <span>Market check</span>
-                                    <span>✓</span>
-                                </div>
-                                <div class="w-full bg-slate-100 h-2 rounded-full">
-                                    <div class="bg-green-500 h-2 rounded-full w-full"></div>
-                                </div>
-                                <div class="flex justify-between text-xs text-gray-500">
-                                    <span>Project validation</span>
-                                    <span>✓</span>
-                                </div>
-                                <div class="w-full bg-slate-100 h-2 rounded-full">
-                                    <div class="bg-green-500 h-2 rounded-full w-full"></div>
-                                </div>
-                                <div class="flex justify-between text-xs text-gray-500">
-                                    <span>Transparency score</span>
-                                    <span>✓</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="md:w-12 md:h-12 bg-white rounded-full border-4 border-primary-500 shadow-lg absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center">
-                        <span class="text-primary-600 font-bold">2</span>
-                    </div>
-                    <div class="md:w-1/2 md:pl-12">
-                        <h3 class="text-2xl font-bold font-space text-dark mb-3">Cost Verification Process</h3>
-                        <p class="text-gray-600">
-                            Our team validates your infrastructure needs against market benchmarks to ensure transparency and build trust with potential sponsors.
-                        </p>
-                    </div>
-                </div>
-                
-                <!-- Step 3 -->
-                <div class="relative z-10 md:flex items-center">
-                    <div class="md:w-1/2 mb-8 md:mb-0 md:pr-12 md:text-right">
-                        <h3 class="text-2xl font-bold font-space text-dark mb-3">Get Sponsored</h3>
-                        <p class="text-gray-600">
-                            Sponsors browse verified projects and choose to fund your operational costs for a defined period (typically 3-6 months).
-                        </p>
-                    </div>
-                    <div class="md:w-12 md:h-12 bg-white rounded-full border-4 border-primary-500 shadow-lg absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center">
-                        <span class="text-primary-600 font-bold">3</span>
-                    </div>
-                    <div class="md:w-1/2 md:pl-12 md:block hidden">
-                        <div class="bg-white rounded-xl shadow-lg p-4 border border-slate-200">
-                            <div class="flex items-center mb-4">
-                                <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="font-medium text-dark">Sponsorship Details</div>
-                                    <div class="text-sm text-gray-500">6-month commitment</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between bg-slate-50 p-3 rounded-lg">
-                                <span class="font-medium">Monthly: $34.50</span>
-                                <span class="font-medium text-secondary-600">Total: $207</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="container mx-auto px-4">
+<div class="flex flex-col lg:flex-row items-center gap-12">
+<div class="lg:w-1/2 max-w-2xl">
+<div class="inline-block px-3 py-1 rounded-full bg-primary-100 text-primary-700 font-medium text-sm mb-6">
+Never shut down a promising project again
+</div>
+<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-dark leading-tight font-space mb-6">
+Keep your code running,<br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 relative">
+not your credit card
+<svg class="absolute -bottom-4 left-0 w-full h-3 text-primary-400/70" viewBox="0 0 400 6" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,3 C100,0 200,6 400,3" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>
+</span>
+</h1>
+<p class="text-xl text-gray-700 mb-8 leading-relaxed">
+Get your essential server, API, and database costs covered through transparent micro-sponsorships that target exactly what you need.
+</p>
 
-    <!-- Our Difference / The Problem-Solution Section -->
-    <section id="difference" class="py-24 bg-gradient-to-br from-slate-50 to-primary-50 relative">
-        <!-- Decorative elements -->
-        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-200 via-secondary-400 to-primary-200"></div>
-        
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold font-space text-dark mb-4">Why FundMyServer Exists</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    We're filling a critical gap in the funding landscape for indie developers and creators.
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-                <!-- The Problem -->
-                <div class="bg-white rounded-xl shadow-xl p-6 border border-red-100 relative">
-                    <div class="absolute -top-3 -left-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded">
-                        THE PROBLEM
-                    </div>
-                    <h3 class="text-2xl font-bold font-space text-dark mb-5 mt-3">The Infrastructure Death Spiral</h3>
-                    <p class="text-gray-700 mb-6">
-                        Promising indie projects face an overlooked killer: <strong>small but persistent operational costs</strong>. After free tiers expire, $10-$100/month server bills can force potentially valuable projects offline.
-                    </p>
-                    
-                    <!-- Problem visualization -->
-                    <div class="bg-slate-50 rounded-lg p-4 relative clip-path-terminal border border-slate-200">
-                        <div class="space-y-3">
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="font-medium text-dark">Free tier credits expire</div>
-                                    <div class="text-sm text-gray-500">AWS/GCP/Azure credits run out</div>
-                                </div>
-                            </div>
-                            <div class="border-l-2 border-dashed border-slate-300 h-5 ml-4"></div>
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="font-medium text-dark">Monthly bills begin</div>
-                                    <div class="text-sm text-gray-500">$10-$100/month operational costs</div>
-                                </div>
-                            </div>
-                            <div class="border-l-2 border-dashed border-slate-300 h-5 ml-4"></div>
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="font-medium text-dark">Project shutdown</div>
-                                    <div class="text-sm text-gray-500">Innovation lost, potential untapped</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- The Solution -->
-                <div class="bg-white rounded-xl shadow-xl p-6 border border-green-100 relative">
-                    <div class="absolute -top-3 -left-3 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded">
-                        OUR SOLUTION
-                    </div>
-                    <h3 class="text-2xl font-bold font-space text-dark mb-5 mt-3">The Operation Cost Bridge</h3>
-                    <p class="text-gray-700 mb-6">
-                        FundMyServer provides <strong>targeted funding for verified infrastructure costs</strong> through time-limited micro-sponsorships, creating a clear path for projects to reach self-sustainability.
-                    </p>
-                    
-                    <!-- Solution visualization -->
-                    <div class="bg-slate-50 rounded-lg p-4 relative clip-path-terminal border border-slate-200">
-                        <div class="space-y-3">
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="font-medium text-dark">Verified cost transparency</div>
-                                    <div class="text-sm text-gray-500">Clear, itemized infrastructure needs</div>
-                                </div>
-                            </div>
-                            <div class="border-l-2 border-dashed border-slate-300 h-5 ml-4"></div>
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="font-medium text-dark">Time-bound sponsorship</div>
-                                    <div class="text-sm text-gray-500">3-6 month funding commitments</div>
-                                </div>
-                            </div>
-                            <div class="border-l-2 border-dashed border-slate-300 h-5 ml-4"></div>
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="font-medium text-dark">Path to sustainability</div>
-                                    <div class="text-sm text-gray-500">Projects grow and thrive</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- What makes us different -->
-            <div class="mt-20">
-                <h3 class="text-2xl md:text-3xl font-bold font-space text-dark mb-10 text-center">How We're Different</h3>
-                
-                <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                    <!-- VS Crowdfunding -->
-                    <div class="bg-white rounded-lg shadow-lg p-5 border border-slate-200">
-                        <div class="flex justify-between items-start mb-4">
-                            <h4 class="text-lg font-bold text-dark">vs. Crowdfunding</h4>
-                            <span class="bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">Kickstarter, Indiegogo</span>
-                        </div>
-                        <p class="text-gray-700 text-sm mb-4">One-time funding for project <strong>creation</strong>, not ongoing <strong>operation</strong>.</p>
-                        <div class="flex">
-                            <div class="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mr-2 flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </div>
-                            <div class="text-xs text-gray-600">Doesn't address recurring infrastructure costs</div>
-                        </div>
-                    </div>
-                    
-                    <!-- VS Patronage -->
-                    <div class="bg-white rounded-lg shadow-lg p-5 border border-slate-200">
-                        <div class="flex justify-between items-start mb-4">
-                            <h4 class="text-lg font-bold text-dark">vs. Patronage</h4>
-                            <span class="bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">Patreon, Ko-fi</span>
-                        </div>
-                        <p class="text-gray-700 text-sm mb-4">Supports <strong>creators</strong> themselves, not specific <strong>operational costs</strong>.</p>
-                        <div class="flex">
-                            <div class="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mr-2 flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </div>
-                            <div class="text-xs text-gray-600">Lacks transparency on funding allocation</div>
-                        </div>
-                    </div>
-                    
-                    <!-- VS VC -->
-                    <div class="bg-white rounded-lg shadow-lg p-5 border border-slate-200">
-                        <div class="flex justify-between items-start mb-4">
-                            <h4 class="text-lg font-bold text-dark">vs. VC Funding</h4>
-                            <span class="bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">Angel, Seed, VC</span>
-                        </div>
-                        <p class="text-gray-700 text-sm mb-4">High-growth startups only, requires <strong>equity</strong> and large investment.</p>
-                        <div class="flex">
-                            <div class="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mr-2 flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </div>
-                            <div class="text-xs text-gray-600">Minimum investments too large ($25k+)</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Market Size Insight Box -->
+<div class="mb-10 bg-white rounded-xl p-5 shadow-lg border border-slate-100 relative">
+<div class="absolute -top-3 -right-3 bg-secondary-600 text-white text-xs font-bold px-2 py-1 rounded-md">
+MARKET INSIGHT
+</div>
+<p class="text-sm text-gray-500 mb-1">Estimated monthly infrastructure costs killing indie projects:</p>
+<div class="flex items-baseline">
+<span class="text-3xl font-bold text-dark font-space mr-1">$<span id="count">10-100</span></span>
+<span class="text-primary-600 text-sm font-medium">per project</span>
+</div>
+<div class="mt-2 flex flex-wrap gap-2">
+<span class="inline-block bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">Servers</span>
+<span class="inline-block bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">APIs</span>
+<span class="inline-block bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">Databases</span>
+<span class="inline-block bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">Storage</span>
+</div>
+</div>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="py-24">
-        <div class="container mx-auto px-4 max-w-4xl">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold font-space text-dark mb-4">Frequently Asked Questions</h2>
-                <p class="text-xl text-gray-600">Everything you need to know about our approach to infrastructure funding.</p>
-            </div>
-            
-            <div class="space-y-6">
-                <!-- Question 1 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                    <details class="group">
-                        <summary class="flex justify-between items-center p-6 cursor-pointer">
-                            <h3 class="text-lg font-semibold text-dark">Is FundMyServer like Kickstarter or GoFundMe?</h3>
-                            <svg class="w-6 h-6 text-primary-500 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </summary>
-                        <div class="p-6 pt-0 text-gray-700 border-t border-slate-100">
-                            <p>No. While those platforms are great for broader project funding, FundMyServer focuses specifically on covering recurring, verified <strong>operational infrastructure costs</strong> (like hosting/APIs) for a fixed term. We ensure transparency about where funds go – directly to keeping the tech running.</p>
-                        </div>
-                    </details>
-                </div>
-                
-                <!-- Question 2 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                    <details class="group">
-                        <summary class="flex justify-between items-center p-6 cursor-pointer">
-                            <h3 class="text-lg font-semibold text-dark">Is this venture capital? Do I give up equity?</h3>
-                            <svg class="w-6 h-6 text-primary-500 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </summary>
-                        <div class="p-6 pt-0 text-gray-700 border-t border-slate-100">
-                            <p>Absolutely not. FundMyServer facilitates <strong>non-equity sponsorships</strong>. We are not investors seeking financial returns or company equity, nor are we an accelerator program like Y Combinator. Our sole goal is to help cover essential infrastructure bills.</p>
-                        </div>
-                    </details>
-                </div>
-                
-                <!-- Question 3 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                    <details class="group">
-                        <summary class="flex justify-between items-center p-6 cursor-pointer">
-                            <h3 class="text-lg font-semibold text-dark">How is this different from Patreon?</h3>
-                            <svg class="w-6 h-6 text-primary-500 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </summary>
-                        <div class="p-6 pt-0 text-gray-700 border-t border-slate-100">
-                            <p>Patreon is designed for ongoing, general creator support through memberships, often funding the creator's time or broader work. FundMyServer provides targeted funding for specific, verified <strong>operational costs</strong> over a defined period (e.g., 6 months) to help projects launch or become sustainable, not indefinite creator patronage.</p>
-                        </div>
-                    </details>
-                </div>
-                
-                <!-- Question 4 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                    <details class="group">
-                        <summary class="flex justify-between items-center p-6 cursor-pointer">
-                            <h3 class="text-lg font-semibold text-dark">What happens after the sponsorship period ends?</h3>
-                            <svg class="w-6 h-6 text-primary-500 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </summary>
-                        <div class="p-6 pt-0 text-gray-700 border-t border-slate-100">
-                            <p>After the initial sponsorship period (typically 3-6 months), there are several paths forward:</p>
-                            <ol class="list-decimal ml-5 mt-3 space-y-2">
-                                <li>Sponsors may choose to renew their support for another period</li>
-                                <li>Projects that have gained traction may have developed their own revenue streams</li>
-                                <li>Projects may find new sponsors through our platform</li>
-                                <li>We provide guidance on optimizing infrastructure costs</li>
-                            </ol>
-                            <p class="mt-3">Our goal is to provide a bridge to sustainability, not create permanent dependence.</p>
-                        </div>
-                    </details>
-                </div>
-                
-                <!-- Question 5 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                    <details class="group">
-                        <summary class="flex justify-between items-center p-6 cursor-pointer">
-                            <h3 class="text-lg font-semibold text-dark">How do you verify costs are legitimate?</h3>
-                            <svg class="w-6 h-6 text-primary-500 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </summary>
-                        <div class="p-6 pt-0 text-gray-700 border-t border-slate-100">
-                            <p>Our verification process includes several steps:</p>
-                            <ul class="list-disc ml-5 mt-3 space-y-2">
-                                <li>Confirming the project's existence and basic functionality</li>
-                                <li>Reviewing the infrastructure setup against industry benchmarks</li>
-                                <li>Ensuring costs align with market rates for the services claimed</li>
-                                <li>Verifying that requested resources are appropriate for the project's stage and needs</li>
-                            </ul>
-                            <p class="mt-3">This process creates trust for sponsors while helping creators optimize their infrastructure choices.</p>
-                        </div>
-                    </details>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Join waitlist button -->
+<a href="#waitlist-form" class="inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-secondary-600 text-white font-medium py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 text-lg">
+<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
+</svg>
+Join the Waitlist
+</a>
+</div>
 
-    <!-- CTA -->
-    <section class="py-20 bg-gradient-to-br from-primary-600 to-secondary-700 text-white relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-0 left-0 right-0 h-px bg-white"></div>
-            <div class="absolute top-10 left-0 right-0 h-px bg-white opacity-75"></div>
-            <div class="absolute top-20 left-0 right-0 h-px bg-white opacity-50"></div>
-            <div class="absolute top-30 left-0 right-0 h-px bg-white opacity-25"></div>
-            <div class="noise-bg opacity-20"></div>
-        </div>
-        
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="max-w-3xl mx-auto text-center">
-                <h2 class="text-3xl md:text-4xl font-bold font-space mb-6 glow-text">Ready to Bridge the Gap?</h2>
-                <p class="text-xl text-white/90 mb-10">
-                    Join the waitlist today to be among the first to get your project funded or discover promising projects to support.
-                </p>
-                <a href="#waitlist-form" class="inline-block bg-white text-primary-700 hover:text-primary-800 font-bold py-3 px-8 rounded-lg shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
-                    Join the Waitlist
-                </a>
-                <p class="mt-6 text-white/80 font-medium">
-                    Be among the first to join our mission
-                </p>
-            </div>
-        </div>
-    </section>
+<!-- Right side illustration -->
+<div class="lg:w-1/2 mt-10 lg:mt-0">
+<div class="relative max-w-lg mx-auto">
+<!-- Main code window -->
+<div class="code-box-gradient rounded-xl shadow-2xl text-white overflow-hidden border border-slate-700">
+<div class="terminal-header">
+    <span class="terminal-circle bg-red-400"></span>
+    <span class="terminal-circle bg-amber-400"></span>
+    <span class="terminal-circle bg-green-400"></span>
+    <span class="ml-2 text-gray-400 text-xs font-mono">project_status.js</span>
+</div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-8 md:mb-0">
-                    <div class="flex items-center">
-                        <div class="w-8 h-8 rounded-md bg-gradient-to-br from-primary-500 to-secondary-600 flex items-center justify-center shadow-md mr-2">
-                            <span class="text-white font-bold font-space text-lg">F</span>
-                        </div>
-                        <span class="text-xl font-bold text-white font-space tracking-tight">FundMyServer</span>
-                    </div>
-                    <p class="text-white/60 mt-2 text-sm">Bridging the infrastructure funding gap.</p>
-                </div>
-                <div>
-                    <p class="text-white/60 text-sm">&copy; <span id="year"></span> FundMyServer. All Rights Reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+<div class="p-6 font-mono text-sm">
+    <div class="flex items-start mb-4">
+        <span class="text-gray-500 mr-2">1</span>
+        <span><span class="text-purple-400">const</span> <span class="text-green-400">project</span> = {</span>
+    </div>
+    <div class="flex items-start mb-1">
+        <span class="text-gray-500 mr-2">2</span>
+        <span class="pl-8"><span class="text-primary-300">name</span>: <span class="text-amber-300">"CoolNewApp"</span>,</span>
+    </div>
+    <div class="flex items-start mb-1">
+        <span class="text-gray-500 mr-2">3</span>
+        <span class="pl-8"><span class="text-primary-300">creator</span>: <span class="text-amber-300">"you@example.com"</span>,</span>
+    </div>
+    <div class="flex items-start mb-1">
+        <span class="text-gray-500 mr-2">4</span>
+        <span class="pl-8"><span class="text-primary-300">operationalCosts</span>: {</span>
+    </div>
+    <div class="flex items-start mb-1">
+        <span class="text-gray-500 mr-2">5</span>
+        <span class="pl-16"><span class="text-primary-300">server</span>: <span class="text-blue-300">15.00</span>, <span class="text-gray-500">// DigitalOcean Droplet</span></span>
+    </div>
+    <div class="flex items-start mb-1">
+        <span class="text-gray-500 mr-2">6</span>
+        <span class="pl-16"><span class="text-primary-300">database</span>: <span class="text-blue-300">7.00</span>, <span class="text-gray-500">// MongoDB Atlas</span></span>
+    </div>
+    <div class="flex items-start mb-1">
+        <span class="text-gray-500 mr-2">7</span>
+        <span class="pl-16"><span class="text-primary-300">apis</span>: <span class="text-blue-300">12.50</span>, <span class="text-gray-500">// OpenAI + SendGrid</span></span>
+    </div>
+    <div class="flex items-start mb-1">
+        <span class="text-gray-500 mr-2">8</span>
+        <span class="pl-8">},</span>
+    </div>
+    <div class="flex items-start mb-1">
+        <span class="text-gray-500 mr-2">9</span>
+        <span class="pl-8"><span class="text-primary-300">monthlyTotal</span>: <span class="text-blue-300">34.50</span>,</span>
+    </div>
+    <div class="flex items-start mb-1">
+        <span class="text-gray-500 mr-2">10</span>
+        <span class="pl-8"><span class="text-primary-300">status</span>: <span class="text-red-400">"At Risk"</span>, <span class="text-gray-500">// Running out of credits</span></span>
+    </div>
+    <div class="flex items-start mb-4">
+        <span class="text-gray-500 mr-2">11</span>
+        <span>};</span>
+    </div>
+    
+    <!-- Status change animation -->
+    <div class="flex items-start mb-1">
+        <span class="text-gray-500 mr-2">12</span>
+        <span><span class="text-purple-400">async function</span> <span class="text-yellow-400">updateStatus</span>() {</span>
+    </div>
+    <div class="flex items-start mb-1">
+        <span class="text-gray-500 mr-2">13</span>
+        <span class="pl-8"><span class="text-purple-400">const</span> <span class="text-green-400">sponsor</span> = <span class="text-purple-400">await</span> <span class="text-yellow-400">fundMyServer</span>.<span class="text-yellow-400">findSponsor</span>(project);</span>
+    </div>
+    <div class="flex items-start mb-1">
+        <span class="text-gray-500 mr-2">14</span>
+        <span class="pl-8">project.status = <span class="text-green-400">"Funded for 6 months"</span>;</span>
+    </div>
+    <div class="flex items-start">
+        <span class="text-gray-500 mr-2">15</span>
+        <span>}</span>
+    </div>
+</div>
+</div>
 
-    <!-- Scripts -->
-    <script>
-        // Update year
-        document.getElementById('year').textContent = new Date().getFullYear();
-        
-        // No counter animation needed for the static range
-        
-        // FAQ accordion functionality
-        document.querySelectorAll('details').forEach((details) => {
-            details.addEventListener('toggle', () => {
-                const svg = details.querySelector('svg');
-                if (details.open) {
-                    svg.classList.add('rotate-180');
-                } else {
-                    svg.classList.remove('rotate-180');
-                }
-            });
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
+<!-- Terminal overlay window -->
+<div class="absolute -bottom-6 -right-6 w-3/4 code-box-gradient rounded-lg shadow-xl p-4 font-mono text-sm text-white border border-slate-700">
+<div class="flex items-center mb-2">
+    <span class="text-gray-500 mr-2">$</span>
+    <span class="text-white">fundmyserver verify --project CoolNewApp</span>
+</div>
+<div class="text-green-400">✓ Costs verified! Total $34.50/month matches market rates</div>
+<div class="mt-2 text-primary-300">Matching with potential sponsors...</div>
+<div class="mt-1 flex items-center">
+    <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse mr-2"></div>
+    <span class="text-white">2 sponsors interested in your project!</span>
+</div>
+</div>
+
+<!-- Status badge -->
+<div class="absolute -top-4 -left-4 bg-white px-4 py-2 rounded-lg shadow-lg border border-slate-200 flex items-center">
+<div class="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+<span class="font-medium text-dark">Verified Project</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Prominent Waitlist Form Section -->
+<section id="waitlist-form" class="py-12 bg-gradient-to-r from-primary-600 to-secondary-700 relative">
+<div class="absolute inset-0 opacity-10">
+<div class="noise-bg opacity-20"></div>
+</div>
+
+<div class="container mx-auto px-4">
+<div class="max-w-4xl mx-auto">
+<div class="bg-white rounded-xl p-8 shadow-2xl relative overflow-hidden">
+<!-- Decorative elements -->
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-primary-100 rounded-full opacity-50"></div>
+<div class="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary-100 rounded-full opacity-50"></div>
+
+<div class="relative">
+<div class="text-center mb-6">
+<div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary-100 text-primary-600 mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+</div>
+<h2 class="text-2xl md:text-3xl font-bold font-space text-dark mb-2">Join The Waitlist</h2>
+<p class="text-gray-600 max-w-xl mx-auto">Be among the first to get early access to FundMyServer and help shape the future of infrastructure funding.</p>
+</div>
+
+<form name="waitlist" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+<p class="hidden">
+    <label>Don't fill this out if you're human: <input name="bot-field"/></label>
+</p>
+<div class="flex flex-col md:flex-row gap-4 mb-4">
+    <div class="flex-1">
+        <label for="email-input" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+        <input type="email" id="email-input" name="email" placeholder="you@example.com" required
+            class="w-full bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-primary-500 rounded-lg h-12 px-4 text-gray-800 focus:outline-none transition duration-150"/>
+    </div>
+    <div class="md:w-1/3">
+        <label for="role-select" class="block text-sm font-medium text-gray-700 mb-1">I am a...</label>
+        <select id="role-select" name="role" required
+            class="w-full bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-primary-500 rounded-lg h-12 px-4 text-gray-800 focus:outline-none transition duration-150 appearance-none"
+            style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg width=\"20\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 7l3 3 3-3\" stroke=\"%23666\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\"/></svg>'); background-repeat: no-repeat; background-position: right 12px center;">
+            <option value="" disabled selected>Select role...</option>
+            <option value="seeker">Project Creator</option>
+            <option value="sponsor">Potential Sponsor</option>
+            <option value="curious">Just Curious</option>
+        </select>
+    </div>
+</div>
+<button type="submit"
+    class="w-full bg-gradient-to-r from-primary-600 to-secondary-600 text-white font-medium py-3 px-6 rounded-lg shadow-lg hover:shadow-xl hover:translate-y-0.5 transform transition duration-150 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 text-lg">
+    Request Early Access
+</button>
+<p class="text-gray-500 text-sm mt-3 text-center">Be part of our founding community</p>
+</form>
+
+<!-- Benefit pills -->
+<div class="mt-8 flex flex-wrap justify-center gap-3">
+<div class="flex items-center bg-slate-50 px-3 py-1.5 rounded-full">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-500 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+    <span class="text-xs font-medium text-gray-700">Early Access</span>
+</div>
+<div class="flex items-center bg-slate-50 px-3 py-1.5 rounded-full">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-500 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+    <span class="text-xs font-medium text-gray-700">Help Shape The Platform</span>
+</div>
+<div class="flex items-center bg-slate-50 px-3 py-1.5 rounded-full">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-500 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+    <span class="text-xs font-medium text-gray-700">Priority Matching</span>
+</div>
+<div class="flex items-center bg-slate-50 px-3 py-1.5 rounded-full">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-500 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+    <span class="text-xs font-medium text-gray-700">No Platform Fees (Beta)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- "How It Works" with timeline design -->
+<section id="how-it-works" class="py-24 relative">
+<div class="container mx-auto px-4">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold font-space text-dark mb-4">From Struggling to Sponsored in 3 Steps</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">
+We bridge the gap between bootstrapped projects and micro-sponsors through a transparent, verified process.
+</p>
+</div>
+
+<!-- Timeline steps -->
+<div class="max-w-4xl mx-auto relative">
+<!-- Vertical line -->
+<div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-primary-400 to-secondary-600 rounded-full hidden md:block"></div>
+
+<!-- Step 1 -->
+<div class="relative z-10 md:flex items-center mb-16">
+<div class="md:w-1/2 mb-8 md:mb-0 md:pr-12 md:text-right">
+<h3 class="text-2xl font-bold font-space text-dark mb-3">Submit Operational Costs</h3>
+<p class="text-gray-600">
+Provide a detailed breakdown of your essential infrastructure costs (servers, APIs, databases) using our standardized template.
+</p>
+</div>
+<div class="md:w-12 md:h-12 bg-white rounded-full border-4 border-primary-500 shadow-lg absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center">
+<span class="text-primary-600 font-bold">1</span>
+</div>
+<div class="md:w-1/2 md:pl-12 md:block hidden">
+<div class="bg-white rounded-xl shadow-lg p-4 border border-slate-200">
+<div class="terminal-header">
+    <span class="terminal-circle bg-red-400"></span>
+    <span class="terminal-circle bg-amber-400"></span>
+    <span class="terminal-circle bg-green-400"></span>
+</div>
+<div class="pt-3 text-sm">
+    <div class="font-mono mb-1 text-slate-500"># Example Cost Breakdown</div>
+    <div class="font-mono mb-1"><span class="text-red-500">Server:</span> DigitalOcean ($15/mo)</div>
+    <div class="font-mono mb-1"><span class="text-blue-500">Database:</span> MongoDB Atlas ($7/mo)</div>
+    <div class="font-mono"><span class="text-green-500">APIs:</span> SendGrid + OpenAI ($12.50/mo)</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Step 2 -->
+<div class="relative z-10 md:flex items-center mb-16">
+<div class="md:w-1/2 mb-8 md:mb-0 md:pr-12 md:text-right md:block hidden">
+<div class="bg-white rounded-xl shadow-lg p-4 border border-slate-200">
+<div class="flex justify-between mb-4">
+    <div class="font-medium text-dark">Cost Verification</div>
+    <div class="text-green-500 font-medium">VERIFIED ✓</div>
+</div>
+<div class="space-y-2">
+    <div class="w-full bg-slate-100 h-2 rounded-full">
+        <div class="bg-green-500 h-2 rounded-full w-full"></div>
+    </div>
+    <div class="flex justify-between text-xs text-gray-500">
+        <span>Market check</span>
+        <span>✓</span>
+    </div>
+    <div class="w-full bg-slate-100 h-2 rounded-full">
+        <div class="bg-green-500 h-2 rounded-full w-full"></div>
+    </div>
+    <div class="flex justify-between text-xs text-gray-500">
+        <span>Project validation</span>
+        <span>✓</span>
+    </div>
+    <div class="w-full bg-slate-100 h-2 rounded-full">
+        <div class="bg-green-500 h-2 rounded-full w-full"></div>
+    </div>
+    <div class="flex justify-between text-xs text-gray-500">
+        <span>Transparency score</span>
+        <span>✓</span>
+    </div>
+</div>
+</div>
+</div>
+<div class="md:w-12 md:h-12 bg-white rounded-full border-4 border-primary-500 shadow-lg absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center">
+<span class="text-primary-600 font-bold">2</span>
+</div>
+<div class="md:w-1/2 md:pl-12">
+<h3 class="text-2xl font-bold font-space text-dark mb-3">Cost Verification Process</h3>
+<p class="text-gray-600">
+Our team validates your infrastructure needs against market benchmarks to ensure transparency and build trust with potential sponsors.
+</p>
+</div>
+</div>
+
+<!-- Step 3 -->
+<div class="relative z-10 md:flex items-center">
+<div class="md:w-1/2 mb-8 md:mb-0 md:pr-12 md:text-right">
+<h3 class="text-2xl font-bold font-space text-dark mb-3">Get Sponsored</h3>
+<p class="text-gray-600">
+Sponsors browse verified projects and choose to fund your operational costs for a defined period (typically 3-6 months).
+</p>
+</div>
+<div class="md:w-12 md:h-12 bg-white rounded-full border-4 border-primary-500 shadow-lg absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center">
+<span class="text-primary-600 font-bold">3</span>
+</div>
+<div class="md:w-1/2 md:pl-12 md:block hidden">
+<div class="bg-white rounded-xl shadow-lg p-4 border border-slate-200">
+<div class="flex items-center mb-4">
+    <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    </div>
+    <div>
+        <div class="font-medium text-dark">Sponsorship Details</div>
+        <div class="text-sm text-gray-500">6-month commitment</div>
+    </div>
+</div>
+<div class="flex items-center justify-between bg-slate-50 p-3 rounded-lg">
+    <span class="font-medium">Monthly: $34.50</span>
+    <span class="font-medium text-secondary-600">Total: $207</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Our Difference / The Problem-Solution Section -->
+<section id="difference" class="py-24 bg-gradient-to-br from-slate-50 to-primary-50 relative">
+<!-- Decorative elements -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-200 via-secondary-400 to-primary-200"></div>
+
+<div class="container mx-auto px-4">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold font-space text-dark mb-4">Why FundMyServer Exists</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">
+We're filling a critical gap in the funding landscape for indie developers and creators.
+</p>
+</div>
+
+<div class="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+<!-- The Problem -->
+<div class="bg-white rounded-xl shadow-xl p-6 border border-red-100 relative">
+<div class="absolute -top-3 -left-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded">
+THE PROBLEM
+</div>
+<h3 class="text-2xl font-bold font-space text-dark mb-5 mt-3">The Infrastructure Death Spiral</h3>
+<p class="text-gray-700 mb-6">
+Promising indie projects face an overlooked killer: <strong>small but persistent operational costs</strong>. After free tiers expire, $10-$100/month server bills can force potentially valuable projects offline.
+</p>
+
+<!-- Problem visualization -->
+<div class="bg-slate-50 rounded-lg p-4 relative clip-path-terminal border border-slate-200">
+<div class="space-y-3">
+<div class="flex items-center">
+    <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    </div>
+    <div>
+        <div class="font-medium text-dark">Free tier credits expire</div>
+        <div class="text-sm text-gray-500">AWS/GCP/Azure credits run out</div>
+    </div>
+</div>
+<div class="border-l-2 border-dashed border-slate-300 h-5 ml-4"></div>
+<div class="flex items-center">
+    <div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+    </div>
+    <div>
+        <div class="font-medium text-dark">Monthly bills begin</div>
+        <div class="text-sm text-gray-500">$10-$100/month operational costs</div>
+    </div>
+</div>
+<div class="border-l-2 border-dashed border-slate-300 h-5 ml-4"></div>
+<div class="flex items-center">
+    <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </div>
+    <div>
+        <div class="font-medium text-dark">Project shutdown</div>
+        <div class="text-sm text-gray-500">Innovation lost, potential untapped</div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- The Solution -->
+<div class="bg-white rounded-xl shadow-xl p-6 border border-green-100 relative">
+<div class="absolute -top-3 -left-3 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded">
+OUR SOLUTION
+</div>
+<h3 class="text-2xl font-bold font-space text-dark mb-5 mt-3">The Operation Cost Bridge</h3>
+<p class="text-gray-700 mb-6">
+FundMyServer provides <strong>targeted funding for verified infrastructure costs</strong> through time-limited micro-sponsorships, creating a clear path for projects to reach self-sustainability.
+</p>
+
+<!-- Solution visualization -->
+<div class="bg-slate-50 rounded-lg p-4 relative clip-path-terminal border border-slate-200">
+<div class="space-y-3">
+<div class="flex items-center">
+    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    </div>
+    <div>
+        <div class="font-medium text-dark">Verified cost transparency</div>
+        <div class="text-sm text-gray-500">Clear, itemized infrastructure needs</div>
+    </div>
+</div>
+<div class="border-l-2 border-dashed border-slate-300 h-5 ml-4"></div>
+<div class="flex items-center">
+    <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
+        </svg>
+    </div>
+    <div>
+        <div class="font-medium text-dark">Time-bound sponsorship</div>
+        <div class="text-sm text-gray-500">3-6 month funding commitments</div>
+    </div>
+</div>
+<div class="border-l-2 border-dashed border-slate-300 h-5 ml-4"></div>
+<div class="flex items-center">
+    <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        </svg>
+    </div>
+    <div>
+        <div class="font-medium text-dark">Path to sustainability</div>
+        <div class="text-sm text-gray-500">Projects grow and thrive</div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- What makes us different -->
+<div class="mt-20">
+<h3 class="text-2xl md:text-3xl font-bold font-space text-dark mb-10 text-center">How We're Different</h3>
+
+<div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+<!-- VS Crowdfunding -->
+<div class="bg-white rounded-lg shadow-lg p-5 border border-slate-200">
+<div class="flex justify-between items-start mb-4">
+<h4 class="text-lg font-bold text-dark">vs. Crowdfunding</h4>
+<span class="bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">Kickstarter, Indiegogo</span>
+</div>
+<p class="text-gray-700 text-sm mb-4">One-time funding for project <strong>creation</strong>, not ongoing <strong>operation</strong>.</p>
+<div class="flex">
+<div class="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mr-2 flex-shrink-0">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+</div>
+<div class="text-xs text-gray-600">Doesn't address recurring infrastructure costs</div>
+</div>
+</div>
+
+<!-- VS Patronage -->
+<div class="bg-white rounded-lg shadow-lg p-5 border border-slate-200">
+<div class="flex justify-between items-start mb-4">
+<h4 class="text-lg font-bold text-dark">vs. Patronage</h4>
+<span class="bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">Patreon, Ko-fi</span>
+</div>
+<p class="text-gray-700 text-sm mb-4">Supports <strong>creators</strong> themselves, not specific <strong>operational costs</strong>.</p>
+<div class="flex">
+<div class="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mr-2 flex-shrink-0">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+</div>
+<div class="text-xs text-gray-600">Lacks transparency on funding allocation</div>
+</div>
+</div>
+
+<!-- VS VC -->
+<div class="bg-white rounded-lg shadow-lg p-5 border border-slate-200">
+<div class="flex justify-between items-start mb-4">
+<h4 class="text-lg font-bold text-dark">vs. VC Funding</h4>
+<span class="bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">Angel, Seed, VC</span>
+</div>
+<p class="text-gray-700 text-sm mb-4">High-growth startups only, requires <strong>equity</strong> and large investment.</p>
+<div class="flex">
+<div class="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mr-2 flex-shrink-0">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+</div>
+<div class="text-xs text-gray-600">Minimum investments too large ($25k+)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FAQ Section -->
+<section id="faq" class="py-24">
+<div class="container mx-auto px-4 max-w-4xl">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold font-space text-dark mb-4">Frequently Asked Questions</h2>
+<p class="text-xl text-gray-600">Everything you need to know about our approach to infrastructure funding.</p>
+</div>
+
+<div class="space-y-6">
+<!-- Question 1 -->
+<div class="bg-white rounded-xl shadow-md overflow-hidden">
+<details class="group">
+<summary class="flex justify-between items-center p-6 cursor-pointer">
+<h3 class="text-lg font-semibold text-dark">Is FundMyServer like Kickstarter or GoFundMe?</h3>
+<svg class="w-6 h-6 text-primary-500 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+</svg>
+</summary>
+<div class="p-6 pt-0 text-gray-700 border-t border-slate-100">
+<p>No. While those platforms are great for broader project funding, FundMyServer focuses specifically on covering recurring, verified <strong>operational infrastructure costs</strong> (like hosting/APIs) for a fixed term. We ensure transparency about where funds go – directly to keeping the tech running.</p>
+</div>
+</details>
+</div>
+
+<!-- Question 2 -->
+<div class="bg-white rounded-xl shadow-md overflow-hidden">
+<details class="group">
+<summary class="flex justify-between items-center p-6 cursor-pointer">
+<h3 class="text-lg font-semibold text-dark">Is this venture capital? Do I give up equity?</h3>
+<svg class="w-6 h-6 text-primary-500 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+</svg>
+</summary>
+<div class="p-6 pt-0 text-gray-700 border-t border-slate-100">
+<p>Absolutely not. FundMyServer facilitates <strong>non-equity sponsorships</strong>. We are not investors seeking financial returns or company equity, nor are we an accelerator program like Y Combinator. Our sole goal is to help cover essential infrastructure bills.</p>
+</div>
+</details>
+</div>
+
+<!-- Question 3 -->
+<div class="bg-white rounded-xl shadow-md overflow-hidden">
+<details class="group">
+<summary class="flex justify-between items-center p-6 cursor-pointer">
+<h3 class="text-lg font-semibold text-dark">How is this different from Patreon?</h3>
+<svg class="w-6 h-6 text-primary-500 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+</svg>
+</summary>
+<div class="p-6 pt-0 text-gray-700 border-t border-slate-100">
+<p>Patreon is designed for ongoing, general creator support through memberships, often funding the creator's time or broader work. FundMyServer provides targeted funding for specific, verified <strong>operational costs</strong> over a defined period (e.g., 6 months) to help projects launch or become sustainable, not indefinite creator patronage.</p>
+</div>
+</details>
+</div>
+
+<!-- Question 4 -->
+<div class="bg-white rounded-xl shadow-md overflow-hidden">
+<details class="group">
+<summary class="flex justify-between items-center p-6 cursor-pointer">
+<h3 class="text-lg font-semibold text-dark">What happens after the sponsorship period ends?</h3>
+<svg class="w-6 h-6 text-primary-500 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+</svg>
+</summary>
+<div class="p-6 pt-0 text-gray-700 border-t border-slate-100">
+<p>After the initial sponsorship period (typically 3-6 months), there are several paths forward:</p>
+<ol class="list-decimal ml-5 mt-3 space-y-2">
+    <li>Sponsors may choose to renew their support for another period</li>
+    <li>Projects that have gained traction may have developed their own revenue streams</li>
+    <li>Projects may find new sponsors through our platform</li>
+    <li>We provide guidance on optimizing infrastructure costs</li>
+</ol>
+<p class="mt-3">Our goal is to provide a bridge to sustainability, not create permanent dependence.</p>
+</div>
+</details>
+</div>
+
+<!-- Question 5 -->
+<div class="bg-white rounded-xl shadow-md overflow-hidden">
+<details class="group">
+<summary class="flex justify-between items-center p-6 cursor-pointer">
+<h3 class="text-lg font-semibold text-dark">How do you verify costs are legitimate?</h3>
+<svg class="w-6 h-6 text-primary-500 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+</svg>
+</summary>
+<div class="p-6 pt-0 text-gray-700 border-t border-slate-100">
+<p>Our verification process includes several steps:</p>
+<ul class="list-disc ml-5 mt-3 space-y-2">
+    <li>Confirming the project's existence and basic functionality</li>
+    <li>Reviewing the infrastructure setup against industry benchmarks</li>
+    <li>Ensuring costs align with market rates for the services claimed</li>
+    <li>Verifying that requested resources are appropriate for the project's stage and needs</li>
+</ul>
+<p class="mt-3">This process creates trust for sponsors while helping creators optimize their infrastructure choices.</p>
+</div>
+</details>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Secondary CTA -->
+<section class="py-16 bg-gradient-to-br from-primary-600 to-secondary-700 text-white relative overflow-hidden">
+<div class="absolute inset-0 opacity-10">
+<div class="absolute top-0 left-0 right-0 h-px bg-white"></div>
+<div class="absolute top-10 left-0 right-0 h-px bg-white opacity-75"></div>
+<div class="absolute top-20 left-0 right-0 h-px bg-white opacity-50"></div>
+<div class="absolute top-30 left-0 right-0 h-px bg-white opacity-25"></div>
+<div class="noise-bg opacity-20"></div>
+</div>
+
+<div class="container mx-auto px-4 relative z-10">
+<div class="max-w-3xl mx-auto text-center">
+<h2 class="text-3xl md:text-4xl font-bold font-space mb-6 glow-text">Ready to Bridge the Gap?</h2>
+<p class="text-xl text-white/90 mb-10">
+Join the waitlist today to be among the first to get your project funded or discover promising projects to support.
+</p>
+<a href="#waitlist-form" class="inline-block bg-white text-primary-700 hover:text-primary-800 font-bold py-3 px-8 rounded-lg shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+Join the Waitlist
+</a>
+<p class="mt-6 text-white/80 font-medium">
+Be among the first to join our mission
+</p>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-12">
+<div class="container mx-auto px-4">
+<div class="flex flex-col md:flex-row justify-between items-center">
+<div class="mb-8 md:mb-0">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-md bg-gradient-to-br from-primary-500 to-secondary-600 flex items-center justify-center shadow-md mr-2">
+<span class="text-white font-bold font-space text-lg">F</span>
+</div>
+<span class="text-xl font-bold text-white font-space tracking-tight">FundMyServer</span>
+</div>
+<p class="text-white/60 mt-2 text-sm">Bridging the infrastructure funding gap.</p>
+</div>
+<div>
+<p class="text-white/60 text-sm">&copy; <span id="year"></span> FundMyServer. All Rights Reserved.</p>
+</div>
+</div>
+</div>
+</footer>
+
+<!-- Scripts -->
+<script>
+// Update year
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// FAQ accordion functionality
+document.querySelectorAll('details').forEach((details) => {
+details.addEventListener('toggle', () => {
+const svg = details.querySelector('svg');
+if (details.open) {
+svg.classList.add('rotate-180');
+} else {
+svg.classList.remove('rotate-180');
+}
+});
+});
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function(e) {
+e.preventDefault();
+document.querySelector(this.getAttribute('href')).scrollIntoView({
+behavior: 'smooth'
+});
+});
+});
+</script>
 </body>
 </html>
