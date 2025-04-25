@@ -184,15 +184,10 @@
             <h3>Ready to Keep Indie Projects Alive?</h3>
             <p>Join the waitlist to get early access and updates.</p>
 
-            <form action="#" method="POST">
-                 <input type="email" name="email" placeholder="Enter your email address" required class="form-control">
-                 <select name="role" required class="form-control">
-                     <option value="" disabled selected>I am interested as a...</option>
-                     <option value="seeker">Project Creator (Seeker)</option>
-                     <option value="sponsor">Potential Sponsor</option>
-                     <option value="curious">Just Curious</option>
-                 </select>
-                 <button type="submit" class="btn">Join Waitlist</button>
+            <form name="waitlist" method="POST" data-netlify="true">
+                <input type="email" name="email" ...>
+                <select name="role" ...> ... </select>
+                <button type="submit" ...>Join Waitlist</button>
             </form>
 
             </div>
